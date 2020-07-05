@@ -1,8 +1,9 @@
 /**
- * About Face -- A Token Rotator
- *      Rotates tokens based on the direction the token is moved
  * 
- * version 1.0                  by Eadorin
+ * Arrow Rotation -- Rotation using the arrow keys. 
+ * 
+ * Some code reused and credit given to About Face by Eadorin.
+ * 
  */
 const mod = 'about-face';
 const modDisplayName = "About Face"

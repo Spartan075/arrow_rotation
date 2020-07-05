@@ -1,10 +1,10 @@
 {
-  "name": "easy-rotation",
-  "title": "Easy Rotation",
+  "name": "arrow_rotation",
+  "title": "Arrow Rotation",
   "description": "Rotates Tokens based on the arrow keys. WASD kept for movement.",
   "version": "1.0",
   "author": "Spartina",
-  "esmodules": [ "easy-rotation.js" ],
+  "esmodules": [ "arrow_rotation.js" ],
   "compatibleCoreVersion": "0.6.3",
   "minimumCoreVersion": "0.6.0",
   "manifest": "https://raw.githubusercontent.com/Spartan075/easy-rotation/master/module.json",

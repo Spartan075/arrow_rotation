@@ -27,45 +27,7 @@ Hooks.once("init", () => {
         type: Boolean
     });
 
-    game.settings.register(mod,'use-indicator', {
-        name: "about-face.options.enable-indicator.name",
-        hint: "about-face.options.enable-indicator.hint",
-        scope: "world",
-        config: true,
-        default: "2",
-        type: String,
-        choices: {
-            "0" : "about-face.options.indicator.choices.0",
-            "1" : "about-face.options.indicator.choices.1",
-            "2" : "about-face.options.indicator.choices.2"
-        }
-    });
-    game.settings.register(mod,'indicator-sprite', {
-        name: "about-face.options.indicator-sprite.name",
-        hint: "about-face.options.indicator-sprite.hint",
-        scope: "world",
-        config: true,
-        default: "normal",
-        type: String,
-        choices: {
-            "normal" : "about-face.options.indicator-sprite.choices.normal",
-            "large-triangle" : "about-face.options.indicator-sprite.choices.large",
-        }
-    });
 
-    game.settings.register(mod,'flip-or-rotate', {
-        name: "about-face.options.flip-or-rotate.name",
-        hint: "about-face.options.flip-or-rotate.hint",
-        scope: "world",
-        config: true,
-        default: "rotate",
-        type: String,
-        choices: {
-            "rotate" : "about-face.options.flip-or-rotate.choices.rotate",
-            "flip-v" : "about-face.options.flip-or-rotate.choices.flip-v",
-            "flip-h" : "about-face.options.flip-or-rotate.choices.flip-h"
-        }
-    });
 
     // convenience
     AboutFace.refreshSettings();
@@ -78,7 +40,7 @@ Hooks.once("init", () => {
 export class AboutFace
 {
     static async ready() {
-        
+
         TokenIndicators = [];
         for ( let [i, token] of canvas.tokens.placeables.entries()){
             if (!(token instanceof Token) || !token.actor) { continue; }
@@ -167,170 +129,7 @@ export class AboutFace
      * @param {*} options 
      * @param {*} userId 
      */
-    static async updateTokenEventHandler(scene,token,updateData,options,userId) {
-
-
-        if (options.lockRotation) {
-            // the token should not rotate!
-        }
-        if (typeof token === 'undefined') return;
-
-        // the client doesn't get the update during the controlToken handler
-        if  (!("AboutFace" in token.flags)) {
-            token.flags.AboutFace = new Map();
-            token.flags.AboutFace.set('x',token.x);
-            token.flags.AboutFace.set('y',token.y);
-            token.flags.AboutFace.set('facing',token_rotation);
-        }
-    
-        // current rotation
-        let facing = token.flags.AboutFace.get('facing');
-        
-        // calculate new rotation
-
    
-        let rotationValue = (updateData.rotation) ? updateData.rotation : AboutFace.getRotationDegrees( token.x - token.flags.AboutFace.get('x'), token.y - token.flags.AboutFace.get('y'));
-
-        // update our recorded position
-        token.flags.AboutFace.set('x',token.x);
-        token.flags.AboutFace.set('y',token.y);
-        
-        // exit if new direction is same as old
-        if (rotationValue == facing) return;
-    
-        // update direction here, preventing rotate() from triggering stack issue
-        token.flags.AboutFace.set('facing',rotationValue);
-
-        // don't rotate because of user setting
-        if (!enableRotation && !useIndicator) return;
-
-        let t = canvas.tokens.get(token._id);
-
-        // show indicators based on appearance
-        if (useIndicator) {
-            if (typeof rotationValue === "undefined" || rotationValue == null) { return;}
-            let ti = (TokenIndicators.filter(ti => ti.token.id == token._id))[0];
-            ti.show();
-            try {
-                ti.rotate(rotationValue);
-            } catch (e) {
-                console.log('sprite not set for some reason..still creating it?');
-            }
-            if (useIndicator == "1") { ti.hide();}
-
-        }
-
-        // enable ability to flip the token
-        if (game.settings.get(mod,'flip-or-rotate') !== "rotate") {
-            if (game.settings.get(mod,'flip-or-rotate') == "flip-v") {
-                if (rotationValue == 0) {
-                    t.scale.y = 1;
-                    t.pivot.y = t.height;
-                } else if (rotationValue == 180) {
-                    t.scale.y=-1;
-                    t.pivot.y= -(t.height);
-                }
-
-            } else {
-                if (rotationValue == 90) {
-                    t.scale.x=-1;
-                    t.pivot.x=-(t.width);
-                } else if (rotationValue == 270) {
-                    t.scale.x=1;
-                    t.pivot.x=t.width;
-                }
-            }
-            t.update({rotation:0});
-            return;
-        }
-        
-        // sets z-Indexes for custom..need to move this out of update() and into ready();
-        if (useIndicator) {
-            t.sortableChildren = true;
-            t.indicator.zIndex = 1;
-            t.target.zIndex = 5;
-            t.icon.zIndex = 10;
-        }
-
-        if (!enableRotation) return;
-        
-        t.data.rotation = rotationValue;
-        t.rotate({angle:rotationValue,snap:45});
-        t.refresh();
-        t.update({rotation:rotationValue});
-    }
-
-    static hoverTokenEventHandler(token,opt) {
-
-        // if (game.user.id != token.owner) { 
-        //     return;
-        // };
-
-        if (useIndicator && opt) {
-            
-            if (!token.indicator) { return;}
-            // show the indicator
-            token.indicator.show();
-            //token.flags.AboutFace.set('show',true);
-        } else {
-            if (useIndicator != "2"){
-                token.indicator.hide();
-                
-            }
-        }
-    }
-
-    static showAllIndicators() {
-        if (canvas == null ) { return;}
-        for ( let [i, token] of canvas.tokens.placeables.entries()){
-            if (!(token instanceof Token)) { continue; }
-            if (token.owner) { token.indicator.show(); }
-            token.indicator.show();
-        }
-    }
-    
-    static hideAllIndicators() {
-        if (canvas == null ) { return;}
-        for ( let [i, token] of canvas.tokens.placeables.entries()){
-            if (!(token instanceof Token)) { continue; }
-            if (token.owner) { token.indicator.hide(); }
-        }
-    }
-
-
-    static controlTokenEventHandler(token, opt) {
-        if (opt) {
-            activeTokens.push(token);
-        } else { 
-            const index = activeTokens.indexOf(token);
-            if ( index > -1) { activeTokens.splice(index,1);}
-        }
-    }
-
-    static closeSettingsConfigEventHandler(settingsConfig, obj){
-        AboutFace.refreshSettings();
-    }
-
-    static refreshSettings() {
-        enableRotation = game.settings.get(mod,"enable-rotation");
-        useIndicator = game.settings.get(mod,"use-indicator");
-        useIndicator = (useIndicator == "1" || useIndicator == "2") ? useIndicator : false;
-        switch (useIndicator) {
-            case "0":
-            case "1":
-                AboutFace.hideAllIndicators();
-                break;
-            case "2":
-                AboutFace.showAllIndicators();
-                break;
-            default:
-                break;
-        }
-        console.log(useIndicator);
-    }
-
-}
-
 
 //===================================================
 // Handle key events, specifically holding shift

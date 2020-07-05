@@ -7,9 +7,9 @@
   "esmodules": [ "arrow_rotation.js" ],
   "compatibleCoreVersion": "0.6.3",
   "minimumCoreVersion": "0.6.0",
-  "manifest": "https://raw.githubusercontent.com/Spartan075/easy-rotation/master/module.json",
-  "download": "https://github.com/eadorin/about-face/archive/master.zip",
-  "url": "https://github.com/eadorin/about-face",
+  "manifest": "https://raw.githubusercontent.com/Spartan075/arrow_rotation/master/module.json",
+  "download": "https://github.com/Spartan075/arrow_rotation/archive/master.zip",
+  "url": "https://github.com/Spartan075/arrow_rotation",
   "changelog": "https:github.com/eadorin/about-face/blob/v1.1/changelog.md",
   "languages": [
     {

@@ -33,8 +33,6 @@ Hooks.once("init", () => {
     AboutFace.refreshSettings();
     
 });
-
-
 /* -------------------------------------------- */
 
 export class AboutFace

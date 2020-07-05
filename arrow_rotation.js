@@ -5,8 +5,8 @@
  * Some code reused and credit given to About Face by Eadorin.
  * 
  */
-const mod = 'about-face';
-const modDisplayName = "About Face"
+const mod = 'arrow_rotation';
+const modDisplayName = "Arrow Rotation"
 
 
 CONFIG.debug.hooks=true;

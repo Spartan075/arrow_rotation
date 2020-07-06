@@ -1,3 +1,5 @@
+import "foundry.js"
+
 KeyboardManager.MOVEMENT_KEYS = {
   w: ["up"],
   a: ["left"],

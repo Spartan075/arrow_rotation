@@ -1,3 +1,8 @@
+
+const mod = 'arrow_rotation';
+const modDisplayName = "Arrow Rotation"
+
+
 import "foundry.js"
 
 KeyboardManager.MOVEMENT_KEYS = {
@@ -22,3 +27,5 @@ KeyboardManager.MOVEMENT_KEYS = {
   Numpad8: ["up"],
   Numpad9: ["up", "right"],
 };
+
+console.log("Hello Foundry!");

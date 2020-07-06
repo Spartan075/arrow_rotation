@@ -26,22 +26,24 @@ const modDisplayName = "Arrow Rotation"
         Numpad9: ["up", "right"],
     };
     
-	static getRotationDegrees(dX = null, dY = null, dir = null) {
-        var rotation = 0;
-        if ((dX == 0 && dY < 0) || dir == "up") rotation = 180; // up
-        else if ((dX == 0 && dY > 0) || dir == "down") rotation = 0; // down
-        else if ((dX > 0 && dY == 0) || dir == "right") rotation = 270; // to the right
-        else if ((dX > 0 && dY < 0) || dir == "up-right") rotation = 225; // up to the right
-        else if ((dX > 0 && dY > 0) || dir == "down-right") rotation = 315; // down to the right
-        else if ((dX < 0 && dY == 0) || dir == "left") rotation = 90; // to the left
-        else if ((dX < 0 && dY > 0) || dir == "down-left") rotation = 45; // down to the left
-        else if ((dX < 0 && dY < 0) || dir == "up-left") rotation = 135 // up to the left
-        token_rotation = rotation;
-
-        // i messed with every version of atan, atan2 I could come up with; inverted Y makes it tough
-        return rotation;
-
-    }
+	_handleMovement(event, layer) {
+    if ( !this._moveKeys.size ) return;
+    // Get controlled objects
+    let objects = layer.placeables.filter(o => o._controlled);
+    if ( objects.length === 0 ) return;
+    // Define movement offsets and get moved directions
+    const directions = this._moveKeys;
+    let dx = 0;
+    let dy = 0;
+    // Assign movement offsets
+    if ( directions.has("left") ) dx -= 1;
+    if ( directions.has("up") ) dy -= 1;
+    if ( directions.has("right") ) dx += 1;
+    if ( directions.has("down") ) dy += 1;
+    this._moveKeys.clear();
+    // Perform the shift or rotation
+    layer.moveMany({dx, dy, rotate: event.shiftKey});
+  }
 
 $(document).keydown(function (event) {
 

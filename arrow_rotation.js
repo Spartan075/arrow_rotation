@@ -15,7 +15,7 @@ const modDisplayName = "Arrow Rotation"
         ArrowUp: ["Red"],
         ArrowRight: ["Blue"],
         ArrowDown: [],
-        ArrowLeft: [],
+        ArrowLeft: ["left"],
         Numpad1: ["down", "left"],
         Numpad2: ["down"],
         Numpad3: ["down", "right"],

@@ -1,0 +1,8 @@
+{
+  "name": "arrow_rotation",
+  "title": "Arrow Rotation: Using the arrow keys to rotate",
+  "description": "A simple module designed to use WASD for movement and the arrows for easy rotation of the Character.",
+  "author": "Spartina, MrXenark",
+  "version": "0.1.0",
+  "minimumCoreVersion": "0.5.0"
+}

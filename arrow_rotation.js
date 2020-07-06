@@ -28,6 +28,8 @@ Hooks.on("ready", function () {
     
 });
 
-KeyboardManager.getKey(event) {
+$(document).keydown(function (event) {
+
     console.log(event.code);
-}
+
+});

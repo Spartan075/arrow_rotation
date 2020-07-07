@@ -119,6 +119,6 @@ $(document).keyup(function (event) {
         Numpad9: ["up", "right"],
     };
 
-};
+});
 
 Hooks.on("controlToken", ArrowRotation.controlTokenEventHandler);

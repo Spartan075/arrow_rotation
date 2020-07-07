@@ -41,8 +41,6 @@ class ArrowRotation {
 }
 
 
-
-
 $(document).keydown(function (event) {
 
     var isArrow = false;
@@ -120,10 +118,6 @@ $(document).keyup(function (event) {
         Numpad8: ["up"],
         Numpad9: ["up", "right"],
     };
-<<<<<<< HEAD
-    
-=======
->>>>>>> edcb3751f36bcadeff19b041e47e80b209a5bdd5
 
 });
 
